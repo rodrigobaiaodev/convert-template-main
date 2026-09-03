@@ -1,46 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convert — câmbio em tempo real</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Roboto:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="styles.css" />
-
-    <title>Convert</title>
   </head>
   <body>
-    <img src="./img/logo.svg" alt="Convert logo" />
+    <header class="wordmark">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M4 12L10 6M4 12L10 18M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Convert
+    </header>
 
-    <main>
-      <form>
-        <label for="amount">valor</label>
-        <input type="text" name="amount" id="amount" placeholder="0" required />
+    <main class="card">
+      <div class="ticker" id="ticker" aria-live="polite">
+        <div class="ticker__track" id="tickerTrack">
+          <span class="ticker__item">carregando cotações…</span>
+        </div>
+      </div>
 
-        <label for="currency">moeda</label>
-        <select name="currency" id="currency" required>
-          <option value="" disabled selected hidden>Selecione a moeda</option>
-          <option value="USD">Dólar Americano</option>
-          <option value="EUR">Euro</option>
-          <option value="GBP">Libra Esterlina</option>
-        </select>
+      <form id="converterForm">
+        <div class="field">
+          <label for="amount">Valor</label>
+          <input
+            type="text"
+            inputmode="decimal"
+            id="amount"
+            name="amount"
+            placeholder="0"
+            autocomplete="off"
+            required
+          />
+        </div>
 
-        <button type="submit">Converter em reais</button>
+        <div class="field">
+          <label for="currency">Moeda de origem</label>
+          <div class="select">
+            <select id="currency" name="currency" required disabled>
+              <option value="" disabled selected hidden>Carregando moedas…</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" id="submitButton" disabled>
+          <span id="submitLabel">Buscando cotação</span>
+        </button>
+
+        <p class="form-status" id="formStatus"></p>
       </form>
 
-      <footer>
-        <span id="description">US$ 1 = R$ 4,86</span>
-        <h1 id="result">486,00 Reais</h1>
-      </footer>
+      <section class="result" id="result">
+        <span class="result__rate" id="rateLine"></span>
+        <strong class="result__value" id="resultValue"></strong>
+        <span class="result__timestamp" id="resultTimestamp"></span>
+      </section>
     </main>
 
+    <p class="footnote">
+      Cotações via <a href="https://docs.awesomeapi.com.br/api-de-moedas" target="_blank" rel="noopener">AwesomeAPI</a>, atualizadas a cada minuto
+    </p>
 
     <script src="scripts.js"></script>
   </body>
